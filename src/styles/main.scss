@@ -1,0 +1,13 @@
+// Importer les styles de base
+@import "./base/reset";
+
+// Importer les variables et les mixins
+@import "./helpers/mixins";
+@import "./helpers/variables";
+
+// Importer les styles des composants
+@import "../pages/Register/Register.scss";
+// Importer les styles spécifiques aux pages
+
+// Importer les styles globaux
+@import "./App";

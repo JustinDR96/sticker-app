@@ -1,7 +1,8 @@
-// App.jsx
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import supabase from "./utils/supabaseClient";
-import { SignUp, Login } from "./components";
+import { PrivateRoute } from "./components";
+import { Register } from "./pages";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -31,20 +32,23 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Welcome to Supabase Auth</h1>
-      {!session ? (
-        <>
-          <SignUp />
-          <Login />
-        </>
-      ) : (
-        <div>
-          <p>Welcome, {session.user.user_metadata.username}</p>
-          <button onClick={logout}>Logout</button>
-        </div>
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute session={session}>
+              <div>
+                <h1>Welcome to Supabase Auth</h1>
+                <p>Welcome, {session?.user.user_metadata.username}</p>
+                <button onClick={logout}>Logout</button>
+              </div>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

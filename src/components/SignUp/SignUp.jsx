@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import supabase from "../../utils/supabaseClient"; // Assurez-vous que le chemin est correct
@@ -41,33 +42,38 @@ function SignUp() {
   };
 
   return (
-    <div>
-      <h2>Inscription</h2>
-      <form onSubmit={signUp}>
-        <input
-          type="email"
-          placeholder="Entrez votre e-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+    <form className="form" onSubmit={signUp}>
+      <span class="title">Sign up</span>
+      <span class="subtitle">Create a free account with your email.</span>
+      <div class="form-container">
         <input
           type="text"
           placeholder="Entrez votre nom d'utilisateur"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          className="input"
         />
+        <input
+          type="email"
+          placeholder="Entrez votre e-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="input"
+        />
+
         <input
           type="password"
           placeholder="Entrez votre mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="input"
         />
-        <button type="submit">S'inscrire</button>
-      </form>
-    </div>
+      </div>
+      <button type="submit">S'inscrire</button>
+    </form>
   );
 }
 

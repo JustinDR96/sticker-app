@@ -1,11 +1,13 @@
+/* eslint-disable react/no-unknown-property */
 // Login.jsx
 import { useState } from "react";
 import supabase from "../../utils/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const signIn = async (event) => {
     event.preventDefault();
@@ -17,23 +19,25 @@ function Login() {
 
     if (error) {
       console.error("Error signing in:", error.message);
-      setMessage("Error signing in: " + error.message);
     } else {
       console.log("User signed in successfully:", data);
-      setMessage("User signed in successfully!");
+
+      navigate("/");
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={signIn}>
+    <form className="form" onSubmit={signIn}>
+      <span class="title">Login</span>
+      <span class="subtitle">Create a free account with your email.</span>
+      <div class="form-container">
         <input
           type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="input"
         />
         <input
           type="password"
@@ -41,11 +45,11 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="input"
         />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+      </div>
+      <button type="submit">Login</button>
+    </form>
   );
 }
 
