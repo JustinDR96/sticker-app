@@ -1,52 +1,44 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import supabase from "./utils/supabaseClient";
-import { PrivateRoute } from "./components";
-import { Register } from "./pages";
+import { ProtectedRoutes } from "./components";
+import { Register, Homepage } from "./pages";
 
 function App() {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setSession(session);
+    const fetchSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("Error fetching session:", error);
+      } else {
+        setSession(data.session);
+      }
     };
-    getSession();
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+
+    fetchSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_, session) => {
+        setSession(session);
+      }
+    );
 
     return () => {
-      subscription?.unsubscribe();
+      authListener?.unsubscribe?.();
     };
   }, []);
-
-  const logout = async () => {
-    await supabase.auth.signOut();
-    setSession(null);
-  };
 
   return (
     <Router>
       <Routes>
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            <PrivateRoute session={session}>
-              <div>
-                <h1>Welcome to Supabase Auth</h1>
-                <p>Welcome, {session?.user.user_metadata.username}</p>
-                <button onClick={logout}>Logout</button>
-              </div>
-            </PrivateRoute>
-          }
-        />
+        <Route element={<ProtectedRoutes session={session} />}>
+          <Route path="/" element={<Homepage session={session} />} />
+          <Route path="/home" element={<Homepage session={session} />} />
+        </Route>
       </Routes>
     </Router>
   );

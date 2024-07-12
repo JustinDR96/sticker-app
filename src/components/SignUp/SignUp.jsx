@@ -1,12 +1,14 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
-import supabase from "../../utils/supabaseClient"; // Assurez-vous que le chemin est correct
+import supabase from "../../utils/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   const signUp = async (event) => {
     event.preventDefault();
@@ -30,7 +32,9 @@ function SignUp() {
 
     const { error: userError } = await supabase
       .from("users")
-      .insert([{ email: data.user.email, username: username }]); // Ajout de l'email ici
+      .insert([
+        { uuid: data.user.id, email: data.user.email, username: username },
+      ]); // Ajout de l'email ici
 
     if (userError) {
       throw new Error(
@@ -38,7 +42,7 @@ function SignUp() {
       );
     }
 
-    return "Inscription réussie !";
+    navigate("/");
   };
 
   return (
