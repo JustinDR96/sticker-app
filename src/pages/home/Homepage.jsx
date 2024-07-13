@@ -1,19 +1,16 @@
+// src/components/Homepage.jsx
 import React from "react";
-import supabase from "../../utils/supabaseClient";
+import { useAuth } from "../../hooks/useAuth";
 
-function Homepage({ session }) {
-  const logout = async () => {
-    await supabase.auth.signOut();
-  };
+const Homepage = () => {
+  const { session } = useAuth();
 
   return (
     <div>
       <h1>Homepage</h1>
-      <p>Welcome to the homepage</p>
-      <p>Welcome, {session?.user.user_metadata.username}</p>
-      <button onClick={logout}>Logout</button>
+      {session ? <p>Welcome, {session.user.email}</p> : <p>Please sign in.</p>}
     </div>
   );
-}
+};
 
 export default Homepage;

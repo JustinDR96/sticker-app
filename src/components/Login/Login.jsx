@@ -1,33 +1,21 @@
-/* eslint-disable react/no-unknown-property */
 // Login.jsx
 import { useState } from "react";
 import supabase from "../../utils/supabaseClient";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
-  const signIn = async (event) => {
-    event.preventDefault();
-
-    const { data, error } = await supabase.auth.signInWithPassword({
+  const handleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-
-    if (error) {
-      console.error("Error signing in:", error.message);
-    } else {
-      console.log("User signed in successfully:", data);
-
-      navigate("/");
-    }
+    if (error) console.error("Error signing in:", error.message);
   };
 
   return (
-    <form className="form" onSubmit={signIn}>
+    <form className="form" onSubmit={handleSignIn}>
       <span class="title">Login</span>
       <span class="subtitle">Create a free account with your email.</span>
       <div class="form-container">

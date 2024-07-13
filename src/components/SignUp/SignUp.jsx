@@ -42,7 +42,7 @@ function SignUp() {
       );
     }
 
-    navigate("/");
+    navigate("/home");
   };
 
   return (

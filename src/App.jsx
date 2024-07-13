@@ -1,46 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import supabase from "./utils/supabaseClient";
-import { ProtectedRoutes } from "./components";
+import { RequireAuth } from "./components";
 import { Register, Homepage } from "./pages";
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Error caught in ErrorBoundary:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-
-      if (error) {
-        console.error("Error fetching session:", error);
-      } else {
-        setSession(data.session);
-      }
-    };
-
-    fetchSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_, session) => {
-        setSession(session);
-      }
-    );
-
-    return () => {
-      authListener?.unsubscribe?.();
-    };
-  }, []);
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route element={<ProtectedRoutes session={session} />}>
-          <Route path="/" element={<Homepage session={session} />} />
-          <Route path="/home" element={<Homepage session={session} />} />
-        </Route>
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Homepage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <Homepage />
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
