@@ -1,0 +1,35 @@
+.navbar {
+  display: flex;
+  height: 80px;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    li {
+      margin-right: 1rem;
+      a {
+        text-decoration: none;
+        color: #333;
+        &:hover {
+          color: #007bff;
+        }
+      }
+      .deconnexion {
+        color: #fff;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        background: rgb(235, 60, 60);
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}

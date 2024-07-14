@@ -1,0 +1,17 @@
+.sticker-container {
+  width: 200px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  .sticker-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}

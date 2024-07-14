@@ -7,7 +7,10 @@
 
 // Importer les styles des composants
 @import "../pages/Register/Register.scss";
+@import "../components/StickerCard/StickerCard.scss";
+@import "../components/Navbar/Navbar.scss";
 // Importer les styles spécifiques aux pages
-
+@import "../pages/Collection/CollectionUser.scss";
 // Importer les styles globaux
 @import "./App";
+@import "../pages/Page.scss";

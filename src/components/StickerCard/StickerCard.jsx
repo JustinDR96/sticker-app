@@ -5,9 +5,7 @@ function StickerCard({ stickerId }) {
   const [stickerData, setStickerData] = useState(null);
   useEffect(() => {
     const fetchStickerId = async () => {
-      // Passage de l'ID du sticker à la fonction getStickerId
       const stickerData = await getStickerId({ stickerId });
-      console.log(stickerData);
       setStickerData(stickerData);
     };
 
@@ -15,8 +13,12 @@ function StickerCard({ stickerId }) {
   }, [stickerId]); // Ajout de stickerId comme dépendance pour réexécuter si l'ID change
 
   return (
-    <div>
-      <p>{stickerData?.name}</p>
+    <div className="sticker-container">
+      <img
+        className="sticker-image"
+        src={stickerData?.image}
+        alt={stickerData?.name}
+      />
     </div>
   );
 }

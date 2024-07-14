@@ -5,23 +5,14 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { Register, Homepage } from "./pages";
-import { ProtectedRoute } from "./components";
+import { Register, Homepage, CollectionUser } from "./pages";
+import { ProtectedRoute, NavBar } from "./components";
+import supabase from "./utils/supabaseClient";
 
 function App() {
   return (
     <Router>
-      <div className="navbar">
-        <ul>
-          <li>
-            <a href="/register">Register</a>
-          </li>
-          <li>
-            <a href="/home">Home</a>
-          </li>
-        </ul>
-      </div>
-
+      <NavBar />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route
@@ -29,6 +20,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Homepage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/collection"
+          element={
+            <ProtectedRoute>
+              <CollectionUser />
             </ProtectedRoute>
           }
         />
