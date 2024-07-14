@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import supabase from "../../utils/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/getUserInfo";
+import { StickerCard } from "../../components";
 import { getStickersUsers } from "../../api/getStickersUsers";
-import { getStickerInfo } from "../../api/getStickersInfo";
-import { StickersCard } from "../../components";
 
 const Homepage = () => {
   const navigate = useNavigate(); // Utilisez useNavigate pour la redirection après déconnexion
   const [userInfo, setUserInfo] = useState(null);
-  const [userStickers, setUserStickers] = useState([]);
-  const [stickersInfo, setStickersInfo] = useState([]);
+  const [stickersUsers, setStickersUsers] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -20,19 +18,12 @@ const Homepage = () => {
     };
     fetchUserInfo();
 
-    const fetchStickersInfo = async () => {
-      const stickersInfo = await getStickersUsers();
-      setUserStickers(stickersInfo);
+    const fetchStickersUsers = async () => {
+      const stickersUsers = await getStickersUsers();
+      setStickersUsers(stickersUsers);
+      console.log("sticker user", stickersUsers);
     };
-    fetchStickersInfo();
-
-    const fetchStickers = async () => {
-      const stickers = await getStickerInfo(
-        userStickers.map((sticker) => sticker.sticker_id)
-      );
-      setStickersInfo(stickers);
-    };
-    fetchStickers();
+    fetchStickersUsers();
   }, []);
 
   if (!userInfo) {
@@ -47,15 +38,14 @@ const Homepage = () => {
 
   return (
     <div>
-      <h1>Protected Data</h1>
       <p>Nom : {userInfo.username}</p>
       <p>Email : {userInfo.email}</p>
-      <h2>Vos stickers</h2>
-      <ul>
-        {stickersInfo.map((sticker) => (
-          <StickersCard key={sticker.id} sticker={sticker} />
-        ))}
-      </ul>
+      {stickersUsers.map((stickerUser) => (
+        <StickerCard
+          key={stickerUser.sticker_id}
+          stickerId={stickerUser.sticker_id}
+        />
+      ))}
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

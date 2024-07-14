@@ -7,7 +7,6 @@ export async function getStickerInfo(stickerIds) {
     .from("stickers")
     .select("*")
     .in("id", id); // Utilise 'in' pour filtrer par un tableau d'IDs
-  console.log(data);
   if (error) {
     console.error("Erreur lors de la récupération des stickers", error);
     return null;

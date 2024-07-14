@@ -11,6 +11,17 @@ import { ProtectedRoute } from "./components";
 function App() {
   return (
     <Router>
+      <div className="navbar">
+        <ul>
+          <li>
+            <a href="/register">Register</a>
+          </li>
+          <li>
+            <a href="/home">Home</a>
+          </li>
+        </ul>
+      </div>
+
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route

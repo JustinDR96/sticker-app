@@ -7,7 +7,6 @@ export async function getStickersUsers() {
 
   if (session) {
     const userId = session.user.id;
-
     const { data, error } = await supabase
       .from("user_stickers")
       .select("*")
@@ -24,6 +23,7 @@ export async function getStickersUsers() {
     // Supposons que vous vouliez appeler getStickerInfo pour chaque sticker_id récupéré
     data.forEach((sticker) => {
       getStickerInfo(sticker.sticker_id);
+      console.log(sticker.sticker_id);
     });
 
     return data;
