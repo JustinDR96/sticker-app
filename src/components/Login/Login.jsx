@@ -1,21 +1,34 @@
 // Login.jsx
 import { useState } from "react";
 import supabase from "../../utils/supabaseClient";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
 
-  const handleSignIn = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) console.error("Error signing in:", error.message);
+    if (error) {
+      console.error("Error logging in:", error);
+    } else {
+      const { session } = data;
+      if (session) {
+        localStorage.setItem("token", session.access_token);
+        navigate(from, { replace: true });
+      }
+    }
   };
 
   return (
-    <form className="form" onSubmit={handleSignIn}>
+    <form className="form" onSubmit={handleLogin}>
       <span class="title">Login</span>
       <span class="subtitle">Create a free account with your email.</span>
       <div class="form-container">

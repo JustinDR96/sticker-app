@@ -2,13 +2,15 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import supabase from "../../utils/supabaseClient";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
 
   const signUp = async (event) => {
     event.preventDefault();
@@ -26,8 +28,6 @@ function SignUp() {
 
     if (error) {
       console.error("Error signing in:", error.message);
-    } else {
-      console.log("User signed in successfully:", data);
     }
 
     const { error: userError } = await supabase
@@ -40,9 +40,13 @@ function SignUp() {
       throw new Error(
         `Erreur lors de l'insertion de l'utilisateur : ${userError.message}`
       );
+    } else {
+      const { session } = data;
+      if (session) {
+        localStorage.setItem("token", session.access_token);
+        navigate(from, { replace: true });
+      }
     }
-
-    navigate("/home");
   };
 
   return (
