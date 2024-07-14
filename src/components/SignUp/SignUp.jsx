@@ -33,8 +33,14 @@ function SignUp() {
     const { error: userError } = await supabase
       .from("users")
       .insert([
-        { uuid: data.user.id, email: data.user.email, username: username },
-      ]); // Ajout de l'email ici
+        {
+          id: data.user.id,
+          email: data.user.email,
+          username: username,
+          profile_picture:
+            "https://res.cloudinary.com/dm3ecrcgx/image/upload/v1720994842/samples/man-portrait.jpg",
+        },
+      ]);
 
     if (userError) {
       throw new Error(

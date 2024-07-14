@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/getUserInfo";
 
 const Homepage = () => {
-  // Utilisez useNavigate pour la redirection après déconnexion
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -22,6 +21,7 @@ const Homepage = () => {
 
   return (
     <div className="page_container">
+      <img className="profile_picture" src={userInfo.profile_picture} alt="" />
       <p>Nom : {userInfo.username}</p>
       <p>Email : {userInfo.email}</p>
     </div>
