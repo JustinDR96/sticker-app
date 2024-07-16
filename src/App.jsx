@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { Register, Homepage, CollectionUser } from "./pages";
 import { ProtectedRoute, NavBar } from "./components";
-import supabase from "./utils/supabaseClient";
+import supabase from "../utils/supabaseClient";
 
 function App() {
   return (

@@ -1,16 +1,22 @@
 // src/components/Homepage.jsx
 import React, { useEffect, useState } from "react";
-import supabase from "../../utils/supabaseClient";
-import { useNavigate } from "react-router-dom";
-import { getUserInfo } from "../../api/getUserInfo";
+import axios from "axios";
 
 const Homepage = () => {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const userInfo = await getUserInfo();
-      setUserInfo(userInfo);
+      try {
+        const response = await axios.get("/api/user-info");
+        setUserInfo(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des informations utilisateur",
+          error
+        );
+      }
     };
     fetchUserInfo();
   }, []);

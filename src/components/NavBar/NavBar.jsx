@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../../utils/supabaseClient";
+import supabase from "../../../utils/supabaseClient";
 
 function NavBar() {
   const navigate = useNavigate();

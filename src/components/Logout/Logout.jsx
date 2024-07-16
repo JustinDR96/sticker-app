@@ -1,6 +1,6 @@
 // src/Logout.js
 import React from "react";
-import supabase from "../../utils/supabaseClient";
+import supabase from "../../../utils/supabaseClient";
 
 const Logout = () => {
   const handleLogout = async () => {

@@ -1,4 +1,4 @@
-import supabase from "../utils/supabaseClient";
+import supabase from "../../utils/supabaseClient";
 
 export async function getStickerInfo(stickerIds) {
   const id = stickerIds instanceof Array ? stickerIds : [stickerIds];

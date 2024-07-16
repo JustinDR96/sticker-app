@@ -1,4 +1,4 @@
-import supabase from "../utils/supabaseClient";
+import supabase from "../../utils/supabaseClient";
 import { getStickerInfo } from "./getStickersInfo"; // Assurez-vous que le chemin d'importation est correct
 
 export async function getStickersUsers() {

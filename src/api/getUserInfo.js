@@ -1,5 +1,5 @@
 // getUserInfo.js
-import supabase from "../utils/supabaseClient"; // Assurez-vous que le chemin d'accès est correct
+import supabase from "../../utils/supabaseClient"; // Assurez-vous que le chemin d'accès est correct
 
 export async function getUserInfo() {
   const sessionResponse = await supabase.auth.getSession();

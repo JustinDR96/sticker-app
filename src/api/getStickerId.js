@@ -1,4 +1,4 @@
-import supabase from "../utils/supabaseClient";
+import supabase from "../../utils/supabaseClient";
 
 export async function getStickerId({ stickerId }) {
   const { data, error } = await supabase

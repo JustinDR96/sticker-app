@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
-import supabase from "../../utils/supabaseClient";
+import supabase from "../../../utils/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function SignUp() {
@@ -30,17 +30,15 @@ function SignUp() {
       console.error("Error signing in:", error.message);
     }
 
-    const { error: userError } = await supabase
-      .from("users")
-      .insert([
-        {
-          id: data.user.id,
-          email: data.user.email,
-          username: username,
-          profile_picture:
-            "https://res.cloudinary.com/dm3ecrcgx/image/upload/v1720994842/samples/man-portrait.jpg",
-        },
-      ]);
+    const { error: userError } = await supabase.from("users").insert([
+      {
+        id: data.user.id,
+        email: data.user.email,
+        username: username,
+        profile_picture:
+          "https://res.cloudinary.com/dm3ecrcgx/image/upload/v1720994842/samples/man-portrait.jpg",
+      },
+    ]);
 
     if (userError) {
       throw new Error(
